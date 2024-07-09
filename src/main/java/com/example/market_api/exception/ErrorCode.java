@@ -1,4 +1,4 @@
-package com.example.market_api.enums;
+package com.example.market_api.exception;
 
 
 
