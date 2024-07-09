@@ -2,7 +2,7 @@ package com.example.market_api.exception;
 
 
 
-import org.flywaydb.core.api.ErrorCode;
+
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
