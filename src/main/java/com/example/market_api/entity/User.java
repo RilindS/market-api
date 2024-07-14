@@ -38,6 +38,16 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+
+
+
+
+
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getName()));
@@ -76,6 +86,7 @@ public class User extends BaseEntity implements UserDetails {
 //    public Long getRole(){
 //        return role.getId();
 //    }
+
 
 
 }
