@@ -2,10 +2,7 @@ package com.example.market_api.security.auth;
 
 import com.example.market_api.data.Base;
 import com.fasterxml.jackson.databind.ser.BeanSerializer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +11,8 @@ import java.util.List;
 
 @Data
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest extends Base {
@@ -32,4 +31,6 @@ public class RegisterRequest extends Base {
     private String phoneNumber;
 
     private String role;
+
+
 }

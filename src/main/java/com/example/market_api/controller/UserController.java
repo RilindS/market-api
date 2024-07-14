@@ -2,6 +2,7 @@ package com.example.market_api.controller;
 
 import com.example.market_api.common.ResponseObject;
 import com.example.market_api.data.User.DeleteUser;
+import com.example.market_api.data.User.UserView;
 import com.example.market_api.entity.User;
 import com.example.market_api.security.auth.AuthenticationRequest;
 import com.example.market_api.security.auth.AuthenticationResponse;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -59,7 +61,7 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
     })
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<AuthenticationResponse> createUser(
             @RequestBody RegisterRequest request
@@ -98,6 +100,25 @@ public class UserController {
         ResponseObject responseObject = userService.deleteUser(deleteUser.getId());
 
         return ResponseEntity.status(responseObject.getStatus()).body(responseObject);
+    }
+
+    @Operation(summary = "Edit User", description = "Edits the details of an existing user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = UserView.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")})
+    @PutMapping("/edit/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserView> editUser(@RequestBody @Valid RegisterRequest request, @PathVariable Long userId
+    ) {
+        String methodName = "editUser";
+
+        log.info("{} -> Edit User", methodName);
+
+        UserView editedUser = userService.editUser(request, userId);
+        log.info("{} -> Edit User, response status: 200", methodName);
+        return ResponseEntity.status(HttpStatus.OK).body(editedUser);
     }
 
 

@@ -72,6 +72,10 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+//
+//    public Long getRole(){
+//        return role.getId();
+//    }
 
 
 }

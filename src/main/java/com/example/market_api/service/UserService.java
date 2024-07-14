@@ -1,11 +1,13 @@
 package com.example.market_api.service;
 
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.example.market_api.common.ResponseObject;
 import com.example.market_api.data.User.DeleteUser;
 import com.example.market_api.data.User.UserView;
 import com.example.market_api.entity.User;
 import com.example.market_api.exception.InternalException;
+import com.example.market_api.exception.NotFoundApiException;
 import com.example.market_api.repository.NativeQueryRepository;
 import com.example.market_api.repository.RoleRepository;
 import com.example.market_api.repository.UserRepository;
@@ -105,7 +107,6 @@ public class UserService extends BaseService{
 
         ResponseObject responseObject=new ResponseObject<>();
         try {
-
             Optional<User> user = userRepository.findById(userId);
 
             if(user.isPresent()){
@@ -124,6 +125,33 @@ public class UserService extends BaseService{
         }
         log.info("deleteUser: {} - Completed successfully", methodName);
         return responseObject;
+    }
+
+    public UserView editUser(RegisterRequest registerRequest,Long userId){
+        try {
+            validateRegisterRequest(registerRequest);
+
+            User excistinUser = userRepository.findById(userId).orElseThrow(()-> new NotFoundException("rerere"));
+
+            excistinUser.setFirstName(registerRequest.getFirstName());
+            excistinUser.setLastName(registerRequest.getLastName());
+            excistinUser.setEmail(registerRequest.getEmail());
+            excistinUser.setPhoneNumber(registerRequest.getPhoneNumber());
+               excistinUser.setRole(roleRepository.findByName(registerRequest.getRole()));
+            excistinUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+
+            userRepository.save(excistinUser);
+            return UserView.fromEntity(excistinUser);
+
+        }catch (ValidationException e){
+            throw new ValidationException("Validation  error");
+        }
+        catch (NotFoundException ne){
+            throw new NotFoundException("User not found");
+        }
+        catch (Exception e){
+            throw new InternalException(e.getLocalizedMessage(),e.getCause());
+        }
     }
 
 
