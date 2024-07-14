@@ -1,4 +1,4 @@
-package com.example.market_api.security.auth.service;
+package com.example.market_api.security.service;
 
 import com.example.market_api.entity.User;
 import io.jsonwebtoken.Claims;
@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 

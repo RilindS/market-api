@@ -1,4 +1,4 @@
-package com.example.market_api.security.auth.config;
+package com.example.market_api.security.config;
 
 
 
@@ -8,15 +8,18 @@ package com.example.market_api.security.auth.config;
 
 
 
-import com.example.market_api.security.auth.service.JwtService;
+import com.example.market_api.security.service.AuthenticationService;
+import com.example.market_api.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,8 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
-            //Authentication authentication = AuthenticationService.getAuthentication(request);
-          //  SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = AuthenticationService.getAuthentication(request);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception apiKeyException) {
             final String authHeader = request.getHeader("Authorization");
             if (authHeader != null && authHeader.startsWith("Bearer ")) {

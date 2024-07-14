@@ -20,7 +20,7 @@ public class Permissions extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "premissions",fetch = FetchType.LAZY)
-    private List<RolePermissions> rolePermissions;
+//    @OneToMany(mappedBy = "premissions",fetch = FetchType.LAZY)
+//    private List<RolePermissions> rolePermissions;
 
 }

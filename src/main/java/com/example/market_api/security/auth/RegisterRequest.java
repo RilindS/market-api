@@ -28,9 +28,8 @@ public class RegisterRequest extends Base {
     @Size(min = 5, max =45, message = "password.min.max")
     private String password;
 
-    private List<Long> categoryTicket;
-    private List<Long> subCategoryTicket;
+
     private String phoneNumber;
-    private String imageUrl;
+
     private String role;
 }
