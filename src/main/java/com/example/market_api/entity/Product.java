@@ -1,11 +1,12 @@
 package com.example.market_api.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import lombok.*;
 import org.hibernate.annotations.ManyToAny;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +26,25 @@ public class Product extends BaseEntity {
 
     @Column(name = "price")
     private double price;
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    @ManyToMany
+    @JoinTable(
+            name = "supplier_products",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "supplier_id")
+    )
+    private List<Supplier> suppliers;
+
 
 
 
