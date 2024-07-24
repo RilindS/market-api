@@ -2,10 +2,8 @@ package com.example.market_api.entity;
 
 
 import jakarta.persistence.*;
-
 import lombok.*;
 import org.hibernate.annotations.ManyToAny;
-
 import java.util.List;
 
 @Getter
@@ -26,6 +24,7 @@ public class Product extends BaseEntity {
 
     @Column(name = "price")
     private double price;
+
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
 

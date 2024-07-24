@@ -15,6 +15,10 @@ import java.util.List;
 public class Supplier extends BaseEntity {
     private String name;
     private String contactInfo;
+    private String address;
+    private String phone;
+    private String email;
+
 
     @ManyToMany(mappedBy = "suppliers")
 
