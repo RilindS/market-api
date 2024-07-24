@@ -1,4 +1,4 @@
-package com.example.market_api.data.Product;
+package com.example.market_api.data.Supplier;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditProduct {
-    private Long id;
+public class EditSupplier {
     private String name;
-    private double price;
-    private String description;
+    private String contactInfo;
+    private String address;
+    private String phone;
+    private String email;
 }

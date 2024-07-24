@@ -3,8 +3,12 @@ package com.example.market_api.service;
 import com.example.market_api.data.Product.CreateProduct;
 import com.example.market_api.data.Product.EditProduct;
 import com.example.market_api.data.Product.ProductView;
+import com.example.market_api.entity.Category;
 import com.example.market_api.entity.Product;
+import com.example.market_api.entity.Supplier;
+import com.example.market_api.repository.CategoryRepository;
 import com.example.market_api.repository.ProductRepository;
+import com.example.market_api.repository.SupplierRepository;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -22,6 +27,8 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final SupplierRepository supplierRepository;
 
     public Product createProduct(CreateProduct createProduct) {
         String methodName = "createProduct";
@@ -33,6 +40,17 @@ public class ProductService {
             product.setName(createProduct.getName());
             product.setDescription(createProduct.getDescription());
             product.setPrice(createProduct.getPrice());
+
+            if (createProduct.getSupplierIds() != null) {
+                List<Supplier> suppliers = supplierRepository.findAllById(createProduct.getSupplierIds());
+                product.setSuppliers(suppliers);
+            }
+
+            if(createProduct.getCategoryIds() != null) {
+                List<Category> categories = categoryRepository.findAllById(createProduct.getCategoryIds());
+                product.setCategories(categories);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e.getLocalizedMessage());
 
@@ -56,6 +74,7 @@ public class ProductService {
                 return productRepository.save(product);
 
             } catch (Exception e) {
+                log.info("not fount with id " + id);
                 throw new RuntimeException(e.getLocalizedMessage());
             }
 
