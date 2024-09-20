@@ -21,7 +21,7 @@ public enum ErrorCode {
     TICKET_NOT_FOUND(2008,"ticket_not_found"),
     COMMENT_NOT_FOUND(2009,"comment_not_found"),
     USER_NOT_FOUND(2010,"user_not_found"),
-
+    SUPPLIER_NOT_FOUND(2011,"supplier_not_found"),
     /* AUTH ERRORS */
     UNAUTHORIZED(3000, "unauthorized"),
     ROLE_NOT_ALLOWED(3001, "role.not.allowed"),

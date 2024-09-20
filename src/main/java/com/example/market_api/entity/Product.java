@@ -28,24 +28,12 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_categories",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category categorys;
 
-    @ManyToMany
-    @JoinTable(
-            name = "supplier_products",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "supplier_id")
-    )
-    private List<Supplier> suppliers;
-
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier suppliers;
 
 }

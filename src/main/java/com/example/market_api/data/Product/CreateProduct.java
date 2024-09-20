@@ -16,7 +16,6 @@ public class CreateProduct {
     private String name;
     private String description;
     private double price;
-    private List<Long> supplierIds;
-    private List<Long> categoryIds;
-
+    private Long supplierIds;
+    private Long categoryIds;
 }
