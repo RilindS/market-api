@@ -6,6 +6,8 @@ import com.example.market_api.data.Product.ProductView;
 import com.example.market_api.entity.Category;
 import com.example.market_api.entity.Product;
 import com.example.market_api.entity.Supplier;
+import com.example.market_api.exception.ErrorCode;
+import com.example.market_api.exception.NotFoundApiException;
 import com.example.market_api.repository.CategoryRepository;
 import com.example.market_api.repository.ProductRepository;
 import com.example.market_api.repository.SupplierRepository;
@@ -15,6 +17,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,15 +44,13 @@ public class ProductService {
             product.setDescription(createProduct.getDescription());
             product.setPrice(createProduct.getPrice());
 
-            if (createProduct.getSupplierIds() != null) {
-                List<Supplier> suppliers = supplierRepository.findAllById(createProduct.getSupplierIds());
-                product.setSuppliers(suppliers);
-            }
+            Category category = categoryRepository.findById(createProduct.getCategoryIds())
+                    .orElseThrow(() -> new NotFoundApiException(ErrorCode.CATEGORY_NOT_FOUND, HttpStatus.NOT_FOUND));
+            product.setCategorys(category);
 
-            if(createProduct.getCategoryIds() != null) {
-                List<Category> categories = categoryRepository.findAllById(createProduct.getCategoryIds());
-                product.setCategories(categories);
-            }
+            Supplier supplier = supplierRepository.findById(createProduct.getSupplierIds())
+                    .orElseThrow(() -> new NotFoundApiException(ErrorCode.SUPPLIER_NOT_FOUND, HttpStatus.NOT_FOUND));
+            product.setSuppliers(supplier);
 
         } catch (Exception e) {
             throw new RuntimeException(e.getLocalizedMessage());
@@ -99,8 +100,4 @@ public class ProductService {
                 product.getPrice()
         ));
     }
-
-
-
-
 }
